@@ -35,13 +35,11 @@ export const RootMutationType = new GraphQLObjectType({
         },
       },
 
-      async resolve(root, args: CreatePost, context: Context) {
+      async resolve(_root, args: CreatePost, context: Context) {
         const { prisma } = context;
-
         const newPost = await prisma.post.create({
           data: args.dto,
         });
-
         return newPost;
       },
     },
@@ -53,14 +51,12 @@ export const RootMutationType = new GraphQLObjectType({
         dto: { type: ChangePostInputNonNullType },
       },
 
-      async resolve(root, { id, dto }: ChangePost, context: Context) {
+      async resolve(_root, { id, dto }: ChangePost, context: Context) {
         const { prisma } = context;
-
         const updatePost = prisma.post.update({
           where: { id },
           data: dto,
         });
-
         return updatePost;
       },
     },
@@ -70,9 +66,8 @@ export const RootMutationType = new GraphQLObjectType({
       args: {
         id: { type: UUIDNonNullType },
       },
-      async resolve(root, args: { id: string }, context: Context) {
+      async resolve(_root, args: { id: string }, context: Context) {
         const { prisma } = context;
-
         await prisma.post.delete({
           where: {
             id: args.id,
@@ -88,14 +83,11 @@ export const RootMutationType = new GraphQLObjectType({
           type: CreateProfileInputNonNullType,
         },
       },
-
-      async resolve(root, args: CreateProfile, context: Context) {
+      async resolve(_root, args: CreateProfile, context: Context) {
         const { prisma } = context;
-
         const newProfile = await prisma.profile.create({
           data: args.dto,
         });
-
         return newProfile;
       },
     },
@@ -109,14 +101,12 @@ export const RootMutationType = new GraphQLObjectType({
         },
       },
 
-      async resolve(root, args: ChangeProfile, context: Context) {
+      async resolve(_root, args: ChangeProfile, context: Context) {
         const { prisma } = context;
-
         const changeProfile = prisma.profile.update({
           where: { id: args.id },
           data: args.dto,
         });
-
         return changeProfile;
       },
     },
@@ -126,9 +116,8 @@ export const RootMutationType = new GraphQLObjectType({
       args: {
         id: { type: UUIDNonNullType },
       },
-      async resolve(root, args: { id: string }, context: Context) {
+      async resolve(_root, args: { id: string }, context: Context) {
         const { prisma } = context;
-
         await prisma.profile.delete({
           where: {
             id: args.id,
@@ -144,14 +133,11 @@ export const RootMutationType = new GraphQLObjectType({
           type: CreateUserInputNonNullType,
         },
       },
-
-      async resolve(root, args: CreateUser, context: Context) {
+      async resolve(_root, args: CreateUser, context: Context) {
         const { prisma } = context;
-
         const newUser = await prisma.user.create({
           data: args.dto,
         });
-
         return newUser;
       },
     },
@@ -165,14 +151,12 @@ export const RootMutationType = new GraphQLObjectType({
         },
       },
 
-      async resolve(root, args: ChangeUser, context: Context) {
+      async resolve(_root, args: ChangeUser, context: Context) {
         const { prisma } = context;
-
         const updateUser = prisma.user.update({
           where: { id: args.id },
           data: args.dto,
         });
-
         return updateUser;
       },
     },
@@ -182,9 +166,8 @@ export const RootMutationType = new GraphQLObjectType({
       args: {
         id: { type: UUIDNonNullType },
       },
-      async resolve(root, args: { id: string }, context: Context) {
+      async resolve(_root, args: { id: string }, context: Context) {
         const { prisma } = context;
-
         await prisma.user.delete({
           where: {
             id: args.id,
@@ -203,9 +186,8 @@ export const RootMutationType = new GraphQLObjectType({
           type: UUIDNonNullType,
         },
       },
-      async resolve(root, args: UserSubscribedTo, context: Context) {
+      async resolve(_root, args: UserSubscribedTo, context: Context) {
         const { prisma } = context;
-
         return await prisma.user.update({
           where: {
             id: args.userId,
@@ -231,9 +213,8 @@ export const RootMutationType = new GraphQLObjectType({
           type: UUIDNonNullType,
         },
       },
-      async resolve(root, args: UserSubscribedTo, context: Context) {
+      async resolve(_root, args: UserSubscribedTo, context: Context) {
         const { prisma } = context;
-
         await prisma.subscribersOnAuthors.delete({
           where: {
             subscriberId_authorId: {

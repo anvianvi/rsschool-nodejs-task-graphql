@@ -23,7 +23,7 @@ export const RootQueryType = new GraphQLObjectType({
   fields: () => ({
     users: {
       type: UserListType,
-      async resolve(root, args, context: Context, info) {
+      async resolve(_root, _args, context: Context, info) {
         const { prisma, loaders } = context;
         let loader = loaders.get(info.fieldNodes);
         const parsedResolveInfoFragment = parseResolveInfo(info);
@@ -32,7 +32,6 @@ export const RootQueryType = new GraphQLObjectType({
           UserListType,
         );
         const fieldsKeys = Object.keys(fields) as readonly string[];
-
         if (!loader) {
           loader = new DataLoader(async (keys) => {
             const fieldsKeys = keys[0].split(',');
@@ -55,15 +54,13 @@ export const RootQueryType = new GraphQLObjectType({
     user: {
       type: UserType,
       args: { id: { type: UUIDNonNullType } },
-      async resolve(root, args: { id: string }, context: Context) {
+      async resolve(_root, args: { id: string }, context: Context) {
         const { prisma } = context;
-
         const user = await prisma.user.findUnique({
           where: {
             id: args.id,
           },
         });
-
         return user;
       },
     },
@@ -71,20 +68,18 @@ export const RootQueryType = new GraphQLObjectType({
     posts: {
       type: PostListType,
       args: {},
-
-      resolve: async (root, args, context: Context) => {
+      resolve: async (_root, _args, context: Context) => {
         const { prisma } = context;
-
         const posts = await prisma.post.findMany();
-
         return posts;
       },
     },
+
     post: {
       type: PostType,
       args: { id: { type: UUIDNonNullType } },
 
-      resolve: async (root, args: { id: string }, context: Context) => {
+      resolve: async (_root, args: { id: string }, context: Context) => {
         const { prisma } = context;
 
         const post = await prisma.post.findUnique({
@@ -98,10 +93,8 @@ export const RootQueryType = new GraphQLObjectType({
 
     memberTypes: {
       type: MemberListType,
-
-      async resolve(root, args, context: Context) {
+      async resolve(_root, _args, context: Context) {
         const { prisma } = context;
-
         return await prisma.memberType.findMany();
       },
     },
@@ -111,10 +104,8 @@ export const RootQueryType = new GraphQLObjectType({
       args: {
         id: { type: MemberIdNonNullType },
       },
-
-      async resolve(root, args: { id: string }, context: Context) {
+      async resolve(_root, args: { id: string }, context: Context) {
         const { prisma } = context;
-
         return await prisma.memberType.findUnique({
           where: {
             id: args.id,
@@ -125,10 +116,8 @@ export const RootQueryType = new GraphQLObjectType({
 
     profiles: {
       type: ProfileListType,
-
-      async resolve(root, args, context: Context) {
+      async resolve(_root, _args, context: Context) {
         const { prisma } = context;
-
         return await prisma.profile.findMany();
       },
     },
@@ -138,15 +127,13 @@ export const RootQueryType = new GraphQLObjectType({
       args: {
         id: { type: UUIDNonNullType },
       },
-      async resolve(root, args: { id: string }, context: Context) {
+      async resolve(_root, args: { id: string }, context: Context) {
         const { prisma } = context;
-
         const profile = await prisma.profile.findUnique({
           where: {
             id: args.id,
           },
         });
-
         return profile;
       },
     },

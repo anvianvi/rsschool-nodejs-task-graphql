@@ -7,6 +7,7 @@ const isMemberID = (value: unknown): value is MemberID =>
 
 export const MemberType = new GraphQLScalarType({
   name: 'MemberTypeIdScalar',
+  description: 'Custom scalar type for MemberID',
 
   serialize(value) {
     if (!isMemberID(value)) {
@@ -23,10 +24,8 @@ export const MemberType = new GraphQLScalarType({
   },
 
   parseLiteral(ast) {
-    if (ast.kind === Kind.STRING) {
-      if (isMemberID(ast.value)) {
-        return ast.value;
-      }
+    if (ast.kind === Kind.STRING && isMemberID(ast.value)) {
+      return ast.value;
     }
     return undefined;
   },

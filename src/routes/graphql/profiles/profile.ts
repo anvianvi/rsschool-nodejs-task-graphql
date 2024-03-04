@@ -20,7 +20,7 @@ const profileTypeFields = {
     type: MemberType,
     async resolve(
       root: { memberTypeId: string },
-      args,
+      _args,
       context: Context,
       info: GraphQLResolveInfo,
     ) {

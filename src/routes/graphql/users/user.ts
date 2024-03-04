@@ -14,7 +14,7 @@ export const UserType: GraphQLObjectType = new GraphQLObjectType({
     balance: { type: GraphQLString },
     profile: {
       type: ProfileType,
-      async resolve(root: { id: string }, args, context: Context, info) {
+      async resolve(root: { id: string }, _args, context: Context, info) {
         const { prisma, loaders } = context;
 
         let loader = loaders.get(info.fieldNodes);
@@ -47,7 +47,7 @@ export const UserType: GraphQLObjectType = new GraphQLObjectType({
 
     posts: {
       type: PostListType,
-      async resolve(root: { id: string }, args, context: Context, info) {
+      async resolve(root: { id: string }, _args, context: Context, info) {
         const { prisma, loaders } = context;
 
         let loader = loaders.get(info.fieldNodes);
@@ -80,7 +80,7 @@ export const UserType: GraphQLObjectType = new GraphQLObjectType({
 
     userSubscribedTo: {
       type: new GraphQLList(UserType),
-      async resolve(root: { id: string }, args, context: Context, info) {
+      async resolve(root: { id: string }, _args, context: Context, info) {
         const { prisma, loaders, dataUsers } = context;
 
         if (dataUsers && loaders.has(dataUsers)) {
@@ -96,7 +96,6 @@ export const UserType: GraphQLObjectType = new GraphQLObjectType({
           return user && user.userSubscribedTo;
         }
 
-        //universal resolve the results
         let loader = loaders.get(info.fieldNodes);
 
         if (!loader) {
@@ -131,23 +130,12 @@ export const UserType: GraphQLObjectType = new GraphQLObjectType({
 
         const userSubscribedTo = loader.load(root.id);
 
-        //simply resolve the results
-        // const userSubscribedTo = prisma.user.findMany({
-        //   where: {
-        //     subscribedToUser: {
-        //       some: {
-        //         subscriberId: root.id,
-        //       },
-        //     },
-        //   },
-        // });
-
         return userSubscribedTo;
       },
     },
     subscribedToUser: {
       type: new GraphQLList(UserType),
-      async resolve(root: { id: string }, args, context: Context, info) {
+      async resolve(root: { id: string }, _args, context: Context, info) {
         const { prisma, loaders, dataUsers } = context;
 
         if (dataUsers && loaders.has(dataUsers)) {
@@ -163,7 +151,6 @@ export const UserType: GraphQLObjectType = new GraphQLObjectType({
           return user && user.subscribedToUser;
         }
 
-        //universal resolve the results
         let loader = loaders.get(info.fieldNodes);
 
         if (!loader) {
@@ -197,17 +184,6 @@ export const UserType: GraphQLObjectType = new GraphQLObjectType({
         }
 
         const subscribedToUser = loader.load(root.id);
-
-        //simply resolve the results
-        // const subscribedToUser = prisma.user.findMany({
-        //   where: {
-        //     userSubscribedTo: {
-        //       some: {
-        //         authorId: root.id,
-        //       },
-        //     },
-        //   },
-        // });
 
         return subscribedToUser;
       },
